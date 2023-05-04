@@ -1,0 +1,42 @@
+Config {
+    font = "xft:DroidSansMono Nerd Font"
+   , bgColor = "#000000"
+   , fgColor = "#BFBFBF"
+   , alpha   = 255
+   , position = TopW L 100
+   , border = NoBorder
+   , borderColor = "#BFBFBF"
+   , borderWidth = 1
+   , textOffset = -1
+   , iconOffset = -1
+   , textOffsets = []
+   , sepChar =  "%"   -- delineator between plugin names and straight text
+   , alignSep = "}{"  -- separator between left-right alignment
+   , template = "%StdinReader%  }{<fc=#c9866f> %uptime% </fc> %wlo1% <fc=#bc7ad9,#1e222a:0> %memory% </fc> %battery% %cpu% <fc=#9ec07c,#1e222a:0> %date%</fc>"
+   , hideOnStart = False
+   , lowerOnStart = True
+   , persistent = False
+   , allDesktops = True
+   , overrideRedirect = True
+   , pickBroadest = False
+   , commands = [ 
+                  Run Date "<fn=1>\61463 </fn> %a %b %d - %R " "date" 50
+              --, Run Date "%a %b %_d %Y * %H:%M:%S" "theDate" 10
+                , Run Cpu ["-L","3","-H","50",
+                              "--normal","green","--high","red", "-t", "\64281 <total>%"] 10
+                , Run BatteryP ["BAT0"]
+                     [
+                      "-t", "B:<left>",
+                      "-L", "10", "-H", "80", "-p", "3",
+                      "--", "-O", "<fc=green>Charging</fc>", "-o", "",
+                      "-L", "-15", "-H", "-95",
+                      "-l", "red", "-m", "blue", "-h", "green",
+                      -- "-a", "notify-send -u critical 'Battery running out!!'",
+                      "-A", "10", "-P"] 600
+                -- , Run Uptime ["-t", "Up: <hours>h <minutes>m"] 100
+                , Run Uptime ["-t", "<fn=1>\61698 </fn><hours>h <minutes>m"] 60
+                , Run Memory ["-t","<fn=1> \63578 </fn><usedratio>%"] 10
+                -- , Run $ Wireless "" ["-t", "<ssid> <qualitybar>"] 600
+                , Run Network "wlo1" ["-t"," <rx>kb   <tx>kb"] 20
+                , Run StdinReader]
+}
